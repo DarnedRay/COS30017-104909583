@@ -1,0 +1,98 @@
+package com.example.myapplication
+
+// PACKAGE //
+// package is the file belongs in the andriod //
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.myapplication.ui.theme.MyApplicationTheme
+
+// IMPORT //
+// imports tell andriod want files/libraies to downlaod in ordet to use for the app //
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContent {
+            MyApplicationTheme {
+                GymApp()
+            }
+        }
+    }
+}
+// Main Activity is the part that controls the main app through Android
+
+@Composable
+// Composable is where I have designed the interface for the app GYM
+fun GymApp() {
+
+    var score by remember { mutableIntStateOf(0) }
+    var element by remember { mutableIntStateOf(1) }
+    var stopped by remember { mutableStateOf(false) }
+
+
+
+    Column(
+        modifier = Modifier.padding(20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        Text("Gym App")
+
+        Text("Score: $score")
+
+        Text("Element: $element / 10")
+
+        Button(onClick = {
+            if (element <= 10) {
+
+                if (element <= 3) {
+                    score = score + 1
+                } else if (element <= 7) {
+                    score = score + 2
+                } else {
+                    score = score + 3
+                }
+
+                element = element + 1
+            }
+        }) {
+            Text("Perform")
+        }
+
+        Button(onClick = {
+            if (element > 1) {
+                score = score - 2
+                stopped = true
+            }
+        }) {
+            Text("Deduction")
+        }
+
+        Button(onClick = {
+            score = 0
+            element = 1
+            stopped = false
+        }) {
+            Text("Reset")
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GymPreview() {
+    MyApplicationTheme {
+        GymApp()
+    }
+}
